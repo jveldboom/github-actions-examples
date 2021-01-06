@@ -32,7 +32,7 @@ jobs:
       - name: Setup
         run: | 
           echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "NAME=${{ fromJSON('["no", env.NAME_PROD]')[github.ref == 'refs/heads/main'] }}" >> $GITHUB_ENV
+          echo "NAME=${{ fromJSON('["no", "$NAME_PROD"]')[github.ref == 'refs/heads/main'] }}" >> $GITHUB_ENV
       
       - name: Get Vars
         run: |
