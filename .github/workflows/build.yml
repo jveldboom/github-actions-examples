@@ -31,8 +31,8 @@ jobs:
       - name: Setup
         run: | 
           echo "BRANCH_NAME=${github.ref##*/}" >> $GITHUB_ENV
-          echo "NAME=${{ github.ref = 'refs/heads/master' && env.NAME_PROD || env.NAME_DEV }}" >> $GITHUB_ENV
-      # Runs a set of commands using the runners shell
+          echo "NAME=${{ fromJSON('["no", "yes"]')[github.ref != 'refs/heads/master'] }}" >> $GITHUB_ENV
+      
       - name: Get Vars
         run: |
           echo $BRANCH_NAME
