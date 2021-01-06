@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup
         run: | 
-          echo "BRANCH_NAME=${github.ref##*/}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
           echo "NAME=${{ fromJSON('["no", "yes"]')[github.ref != 'refs/heads/master'] }}" >> $GITHUB_ENV
       
       - name: Get Vars
