@@ -9,14 +9,11 @@ const core = __nccwpck_require__(186);
 const github = __nccwpck_require__(438);
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
+
+  core.exportVariable('BRANCH_NAME', process.env.GITHUB_REF.split('/').slice(2).join('/'));
+  core.exportVariable('DEFAULT_BRANCH', github.event.repository.default_branch);
 
   console.log(JSON.stringify(github, undefined, 2))
-
   console.log(JSON.stringify(process.env, undefined, 2))
 } catch (error) {
   core.setFailed(error.message);
