@@ -11,7 +11,7 @@ description: 'Greet someone and record the time'
 runs:
   using: 'node12'
   main: 'dist/index.js'
-  inputs:
-    production-branch:
-      description: 'Production branch name used to set environmental suffixed-variables'
-      required: false
+inputs:
+  production-branch:
+    description: 'Production branch name used to set environmental suffixed-variables'
+    required: false
