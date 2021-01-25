@@ -5,20 +5,33 @@ module.exports =
 /***/ 932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const core = __nccwpck_require__(186);
-const github = __nccwpck_require__(438);
+const core = __nccwpck_require__(186)
+const github = __nccwpck_require__(438)
+
+const getBranchName = (github) => {
+  if (github.pull_request) return github.context.payload.head.ref
+  return github.ref.substr(11)
+}
+
+const getDefaultBranchName = (github) => {
+  return github.context.payload.repository.default_branch
+}
 
 try {
-  const payload = github.context.payload
-
-  core.exportVariable('BRANCH_NAME', process.env.GITHUB_REF.split('/').slice(2).join('/'))
-  core.exportVariable('DEFAULT_BRANCH', payload.repository.default_branch)
-
-  console.log(JSON.stringify(github, undefined, 2))
-  console.log(JSON.stringify(process.env, undefined, 2))
+  core.exportVariable('BRANCH_NAME', getBranchName(github))
+  core.exportVariable('DEFAULT_BRANCH', getDefaultBranchName(github))
 } catch (error) {
   core.setFailed(error.message)
 }
+
+const exportEnvironmentVars = () => {
+  for (const env of Object.keys(process.env)) {
+    if (env.endsWith('_PROD')) {
+      console.log(env, process.env[env])
+    }
+  }
+}
+
 
 /***/ }),
 
