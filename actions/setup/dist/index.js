@@ -9,7 +9,7 @@ const core = __nccwpck_require__(186)
 const github = __nccwpck_require__(438)
 
 const getBranchName = (github) => {
-  if (github.context.payload.pull_request) return github.context.payload.head.ref
+  if (github.context.payload.pull_request) return github.context.payload.pull_request.head.ref
   return github.ref.substr(11)
 }
 
