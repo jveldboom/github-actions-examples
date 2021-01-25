@@ -9,6 +9,8 @@ on:
 env:
   ENV_NAME_DEV: develop
   ENV_NAME_PROD: production
+  SLACK_CHANNEL_DEV: develop
+  SLACK_CHANNEL_PROD: production
 
 jobs:
 

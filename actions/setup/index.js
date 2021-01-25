@@ -10,8 +10,8 @@ const getDefaultBranch = (github) => {
   return github.context.payload.repository.default_branch
 }
 
-const isProduction = () => {
-  if (core.getInput('production-branch')) return true
+const isProduction = (currentBranch) => {
+  if (core.getInput('production-branch') === currentBranch) return true
   return false
 }
 
@@ -19,7 +19,8 @@ const exportEnvironmentVars = () => {
   const envVarSuffix = isProduction() ? '_PROD' : '_DEV'
   for (const env of Object.keys(process.env)) {
     if (env.endsWith(envVarSuffix)) {
-      console.log(env, process.env[env])
+      const newVarName = env.replace(envVarSuffix, '')
+      core.exportVariable(newVarName, process.env[env])
     }
   }
 }
