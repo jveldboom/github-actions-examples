@@ -13,23 +13,30 @@ const getBranchName = (github) => {
   return github.ref.substr(11)
 }
 
-const getDefaultBranchName = (github) => {
+const getDefaultBranch = (github) => {
   return github.context.payload.repository.default_branch
+}
+
+const isProduction = () => {
+  if (core.getInput('production-branch')) return true
+  return false
+}
+
+const exportEnvironmentVars = () => {
+  const envVarSuffix = isProduction() ? '_PROD' : '_DEV'
+  for (const env of Object.keys(process.env)) {
+    if (env.endsWith(envVarSuffix)) {
+      console.log(env, process.env[env])
+    }
+  }
 }
 
 try {
   core.exportVariable('BRANCH_NAME', getBranchName(github))
-  core.exportVariable('DEFAULT_BRANCH', getDefaultBranchName(github))
+  core.exportVariable('DEFAULT_BRANCH', getDefaultBranch(github))
+  exportEnvironmentVars()
 } catch (error) {
   core.setFailed(error.message)
-}
-
-const exportEnvironmentVars = () => {
-  for (const env of Object.keys(process.env)) {
-    if (env.endsWith('_PROD')) {
-      console.log(env, process.env[env])
-    }
-  }
 }
 
 
