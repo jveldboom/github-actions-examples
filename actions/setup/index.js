@@ -2,6 +2,7 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 
 const getBranchName = (github) => {
+  console.log(JSON.stringify(github, null, 2))
   if (github.pull_request) return github.context.payload.head.ref
   return github.ref.substr(11)
 }
