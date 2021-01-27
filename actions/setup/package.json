@@ -1,0 +1,29 @@
+{
+  "name": "setup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js --license licenses.txt",
+    "test": "mocha --recursive tests",
+    "coverage": "nyc --reporter=html mocha --recursive tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vercel/ncc": "^0.27.0",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "standard": "^16.0.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0"
+  },
+  "standard": {
+    "ignore": [
+      "dist/*"
+    ]
+  }
+}
