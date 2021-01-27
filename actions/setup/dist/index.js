@@ -2,43 +2,111 @@ module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 932:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ 26:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(186)
-const github = __nccwpck_require__(438)
+const utilities = __nccwpck_require__(912)
+
+const suffixes = {
+  dev: '_DEV',
+  prod: '_PROD'
+}
+
+const getEnvVarSuffix = (github) => {
+  if (core.getInput('production-branch') === utilities.getBranchName(github)) return suffixes.prod
+  return suffixes.dev
+}
+
+const getEnvVarsToExport = (github) => {
+  const envVarSuffix = getEnvVarSuffix(github)
+
+  const envVarsToExport = {}
+  for (const envKey of Object.keys(process.env)) {
+    if (envKey.endsWith(envVarSuffix)) {
+      const newVarName = envKey.replace(envVarSuffix, '')
+      envVarsToExport[newVarName] = process.env[envKey]
+    }
+  }
+
+  return envVarsToExport
+}
+
+const exportEnvVars = (github) => {
+  // do nothing if input parameter not passed in
+  if (core.getInput('production-branch') === '') return false
+
+  const envVarsToExport = getEnvVarsToExport(github)
+  for (const envVar of Object.keys(envVarsToExport)) {
+    core.exportVariable(envVar, envVarsToExport[envVar])
+  }
+
+  return true
+}
+
+module.exports = {
+  getEnvVarSuffix,
+  getEnvVarsToExport,
+  exportEnvVars,
+  suffixes
+}
+
+
+/***/ }),
+
+/***/ 912:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(186)
 
 const getBranchName = (github) => {
   if (github.context.payload.pull_request) return github.context.payload.pull_request.head.ref
-  return github.ref.substr(11)
+  return github.context.ref.substr(11)
 }
 
 const getDefaultBranch = (github) => {
   return github.context.payload.repository.default_branch
 }
 
-const isProduction = (currentBranch) => {
-  if (core.getInput('production-branch') === currentBranch) return true
-  return false
+const getRepoOwner = (github) => {
+  return github.context.payload.repository.full_name.split('/')[0]
 }
 
-const exportEnvironmentVars = () => {
-  const envVarSuffix = isProduction() ? '_PROD' : '_DEV'
-  for (const env of Object.keys(process.env)) {
-    if (env.endsWith(envVarSuffix)) {
-      const newVarName = env.replace(envVarSuffix, '')
-      core.exportVariable(newVarName, process.env[env])
-    }
+const getRepoName = (github) => {
+  return github.context.payload.repository.full_name.split('/')[1]
+}
+
+module.exports = {
+  getBranchName,
+  getDefaultBranch,
+  getRepoOwner,
+  getRepoName
+}
+
+
+/***/ }),
+
+/***/ 932:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(186)
+const github = __nccwpck_require__(438)
+const utilities = __nccwpck_require__(912)
+const exportEnvVars = __nccwpck_require__(26).exportEnvVars
+
+async function run () {
+  try {
+    core.exportVariable('BRANCH_NAME', utilities.getBranchName(github))
+    core.exportVariable('DEFAULT_BRANCH', utilities.getDefaultBranch(github))
+    core.exportVariable('REPO_OWNER', utilities.getRepoOwner(github))
+    core.exportVariable('REPO_NAME', utilities.getRepoName(github))
+    exportEnvVars()
+  } catch (error) {
+    core.setFailed(error.message)
   }
 }
 
-try {
-  core.exportVariable('BRANCH_NAME', getBranchName(github))
-  core.exportVariable('DEFAULT_BRANCH', getDefaultBranch(github))
-  exportEnvironmentVars()
-} catch (error) {
-  core.setFailed(error.message)
-}
+run()
 
 
 /***/ }),
