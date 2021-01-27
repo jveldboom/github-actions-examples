@@ -11,6 +11,7 @@ async function run () {
     core.exportVariable('REPO_NAME', utilities.getRepoName(github))
     exportEnvVars()
   } catch (error) {
+    core.setFailed(error)
     core.setFailed(error.message)
   }
 }

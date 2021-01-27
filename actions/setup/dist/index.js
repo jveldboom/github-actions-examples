@@ -55,9 +55,7 @@ module.exports = {
 /***/ }),
 
 /***/ 912:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const core = __nccwpck_require__(186)
+/***/ ((module) => {
 
 const getBranchName = (github) => {
   if (github.context.payload.pull_request) return github.context.payload.pull_request.head.ref
@@ -102,6 +100,7 @@ async function run () {
     core.exportVariable('REPO_NAME', utilities.getRepoName(github))
     exportEnvVars()
   } catch (error) {
+    core.setFailed(error)
     core.setFailed(error.message)
   }
 }
