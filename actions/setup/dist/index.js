@@ -94,12 +94,11 @@ const exportEnvVars = __nccwpck_require__(26).exportEnvVars
 
 async function run () {
   try {
-    console.log(JSON.stringify(github, null, 2))
     core.exportVariable('BRANCH_NAME', utilities.getBranchName(github))
     core.exportVariable('DEFAULT_BRANCH', utilities.getDefaultBranch(github))
     core.exportVariable('REPO_OWNER', utilities.getRepoOwner(github))
     core.exportVariable('REPO_NAME', utilities.getRepoName(github))
-    exportEnvVars()
+    exportEnvVars(github)
   } catch (error) {
     core.setFailed(error.stack)
     core.setFailed(error.message)
