@@ -1,0 +1,60 @@
+name: deploy-promotion
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  ENV_NAME_DEV: develop
+  ENV_NAME_PROD: production
+  SLACK_CHANNEL_DEV: develop
+  SLACK_CHANNEL_PROD: production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup
+        uses: ./actions/setup
+        with:
+          production-branch: main
+
+      - name: Get Vars
+        run: |
+          echo $BRANCH_NAME
+          env
+
+  develop:
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup
+        uses: ./actions/setup
+        with:
+          production-branch: main
+
+      - name: Get Vars
+        run: |
+          echo $BRANCH_NAME
+          env
+
+  production:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: develop
+
+    steps:
+      - name: Setup
+        uses: ./actions/setup
+        with:
+          production-branch: main
+
+      - name: Get Vars
+        run: |
+          echo $BRANCH_NAME
+          env
