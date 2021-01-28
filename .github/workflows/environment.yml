@@ -17,31 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup
-        uses: ./actions/setup
-        with:
-          production-branch: main
-
-      - name: Get Vars
-        run: |
-          echo $BRANCH_NAME
-          env
-
   develop:
     runs-on: ubuntu-latest
     environment: develop
+
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup
-        uses: ./actions/setup
-        with:
-          production-branch: main
-
-      - name: Get Vars
-        run: |
-          echo $BRANCH_NAME
-          env
 
   production:
     runs-on: ubuntu-latest
@@ -49,12 +30,4 @@ jobs:
     needs: develop
 
     steps:
-      - name: Setup
-        uses: ./actions/setup
-        with:
-          production-branch: main
-
-      - name: Get Vars
-        run: |
-          echo $BRANCH_NAME
-          env
+      - uses: actions/checkout@v2
