@@ -63,6 +63,6 @@ jobs:
 
   visual-test-production:
     runs-on: ubuntu-latest
-    needs: deploy-develop
+    needs: deploy-production
     steps:
       - run: echo "visual testing..."
