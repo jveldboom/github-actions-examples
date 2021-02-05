@@ -11,6 +11,7 @@ env:
   SLACK_CHANNEL_PROD: production
 
 jobs:
+  # pre-deploy build & unit tests
   build:
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +23,7 @@ jobs:
     steps:
       - run: echo "unit testing..."
 
+  # develop environment deploy & test
   deploy-develop:
     runs-on: ubuntu-latest
     environment: develop
@@ -41,10 +43,11 @@ jobs:
     steps:
       - run: echo "user acceptance testing..."
 
+  # production environment deploy & test
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
-    needs: integration-test
+    needs: [ integration-test-develop, user-acceptance-test ]
     steps:
       - run: echo "deploying to production"
 
