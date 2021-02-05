@@ -13,37 +13,44 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    runs: echo "building..."
+    steps:
+      - runs: echo "building..."
 
   unit-test:
     runs-on: ubuntu-latest
     needs: build
-    runs: echo "unit testing..."
+    steps:
+      - runs: echo "unit testing..."
 
   deploy-develop:
     runs-on: ubuntu-latest
     environment: develop
     needs: unit-test
-    runs: echo "deploying to develop..."
+    steps:
+      - runs: echo "deploying to develop..."
 
   integration-test-develop:
     runs-on: ubuntu-latest
     needs: deploy-develop
-    runs: echo "integration testing..."
+    steps:
+      - runs: echo "integration testing..."
 
   user-acceptance-test:
     runs-on: ubuntu-latest
     needs: deploy-develop
-    runs: echo "user acceptance testing..."
+    steps:
+      - runs: echo "user acceptance testing..."
 
   deploy-production:
     runs-on: ubuntu-latest
     environment: production
     needs: integration-test
-    runs: echo "deploying to production"
+    steps:
+      - runs: echo "deploying to production"
 
   integration-test-production:
     runs-on: ubuntu-latest
     environment: deploy-production
     needs: integration-test
-    runs: echo "integration testing production..."
+    steps:
+      - runs: echo "integration testing production..."
