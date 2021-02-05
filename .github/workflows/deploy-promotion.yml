@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main ]
 
+
 env:
   ENV_NAME_DEV: develop
   ENV_NAME_PROD: production
