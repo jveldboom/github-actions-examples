@@ -4,6 +4,7 @@ metadata:
   name: github-actions-examples
   annotations:
     github.com/project-slug: jveldboom/github-actions-examples
+    backstage.io/techdocs-ref: url:https://github.com/jveldboom/github-actions-examples
   links:
     - url: https://admin.example-org.com
       title: Admin Dashboard
