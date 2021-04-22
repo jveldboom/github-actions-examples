@@ -1,0 +1,7 @@
+site_name: 'github-actions-examples'
+
+nav:
+  - Home: index.md
+
+plugins:
+  - techdocs-core
