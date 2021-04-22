@@ -2,7 +2,7 @@ name: deploy-promotion
 
 on:
   push:
-    branches: [ main ]
+    branches: [ none ]
 
 
 env:
