@@ -4,7 +4,11 @@ metadata:
   name: github-actions-examples
   annotations:
     github.com/project-slug: jveldboom/github-actions-examples
+  links:
+    - url: https://admin.example-org.com
+      title: Admin Dashboard
+      icon: dashboard
 spec:
   type: other
-  lifecycle: unknown
-  owner: backstage
+  lifecycle: develop
+  owner: jveldboom
