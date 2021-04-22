@@ -5,3 +5,5 @@ nav:
 
 plugins:
   - techdocs-core
+
+docs_dir: '_docs'
